@@ -1,0 +1,53 @@
+name: Build and Deploy SFML Game to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Workflow chạy khi có commit vào nhánh main
+  pull_request:
+    branches:
+      - main  # Workflow cũng chạy khi có pull request vào nhánh main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Workflow chạy trên hệ điều hành Ubuntu
+
+    steps:
+    # 1. Lấy mã nguồn từ GitHub
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. Cài đặt Emscripten (công cụ giúp biên dịch C++ thành WebAssembly)
+    - name: Set up Emscripten
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake build-essential python3
+        sudo apt-get install -y clang
+        curl -sL https://emscripten.org/install.sh | bash
+
+    # 3. Tải các thư viện SFML Web (để biên dịch game)
+    - name: Install SFML Web dependencies
+      run: |
+        git clone https://github.com/Crissov/sfml-web.git
+        cd sfml-web
+        # Cài đặt thêm nếu cần thiết
+
+    # 4. Biên dịch game của bạn
+    - name: Build SFML Game
+      run: |
+        emcc game.cpp -o game.html -lsfml-graphics -lsfml-window -lsfml-system -s USE_SDL=2 --preload-file images@/images
+
+    # 5. Tạo thư mục deploy để chứa các tệp cần thiết
+    - name: Create deployment folder
+      run: |
+        mkdir -p deploy
+        mv game.html deploy/
+        mv game.js deploy/
+        mv game.wasm deploy/
+
+    # 6. Triển khai lên GitHub Pages
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./deploy  # Đường dẫn thư mục chứa các tệp cần triển khai
