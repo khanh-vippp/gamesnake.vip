@@ -3,10 +3,10 @@ name: Build and Deploy SFML Game to GitHub Pages
 on:
   push:
     branches:
-      - main  # Workflow chạy khi có commit vào nhánh main
+      - master  # Workflow chạy khi có commit vào nhánh main
   pull_request:
     branches:
-      - main  # Workflow cũng chạy khi có pull request vào nhánh main
+      - master  # Workflow cũng chạy khi có pull request vào nhánh main
 
 jobs:
   build:
