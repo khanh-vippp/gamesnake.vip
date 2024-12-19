@@ -3,10 +3,10 @@ name: Build and Deploy SFML Game to GitHub Pages
 on:
   push:
     branches:
-      - master  # Workflow chạy khi có commit vào nhánh main
+      - master  # Workflow chạy khi có commit vào nhánh master
   pull_request:
     branches:
-      - master  # Workflow cũng chạy khi có pull request vào nhánh main
+      - master  # Workflow cũng chạy khi có pull request vào nhánh master
 
 jobs:
   build:
@@ -24,6 +24,7 @@ jobs:
         sudo apt-get install -y cmake build-essential python3
         sudo apt-get install -y clang
         curl -sL https://emscripten.org/install.sh | bash
+        source ~/emsdk/emsdk_env.sh  # Đảm bảo Emscripten được cấu hình đúng
 
     # 3. Tải các thư viện SFML Web (để biên dịch game)
     - name: Install SFML Web dependencies
