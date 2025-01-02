@@ -19,7 +19,6 @@ Game description and instruction
 Các kỹ thuật sử dụng:
 
 * Thư viện SFML.
-* Sử dụng nhiều class, vector, tách file, ...
 * Tạo các đối tượng: rắn, táo, ...
 * Xử lý thời gian, thao tác chuột và bàn phím, âm thanh, hình ảnh, chữ.
 * Tạo menu và các nút ấn di chuyển giữa các menu.
